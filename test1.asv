@@ -1,0 +1,27 @@
+ %Parameters  
+wavelength_min = 400; % Minimum wavelength in nm  
+wavelength_max = 700; % Maximum wavelength in nm  
+num_leds = 9; % Number of LEDs  
+num_points = 300; % Number of spectral data points per LED  
+  
+% Central wavelengths for each LED  
+central_wavelengths = linspace(400, 670);  
+  
+% Generate LED spectra with narrower intensity distribution  
+spectra = zeros(num_points, num_leds);  
+wavelengths = linspace(wavelength_min, wavelength_max, num_points);  
+intensity_range = 10; % Intensity range in nm  
+  
+
+mean_wavelength = central_wavelengths(i);  
+
+% Generate Gaussian spectral data with narrower intensity range  
+std_deviation = intensity_range / (2 * sqrt(2 * log(2))); % Standard deviation  
+intensities = exp(-(wavelengths - mean_wavelength).^2 / (2 * std_deviation^2));  
+
+% Normalize intensities  
+intensities = intensities / sum(intensities); % Normalize by the sum instead of the maximum  
+
+% Store spectrum  
+spectra(:, i) = intensities;  
+end  
